@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Index Note Taking & Making System</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css" integrity="sha512-Kc323vGBEqzTmouAECnVceyQqyqdsSiqLQISBL29aUW4U/M7pSPA/gEUZQqv1cwx4OnYxTxve5UMg5GT6L4JJg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="stylesheet" href="note.css">
+</head>
+<body>
+    <div class="note-taking-container">
+        <div class="note-taking-main-container">
+            <header class="app-header">
+                <h1> Index Note Taking & Making System</h1>
+                <p class="app-subtitle">Capture thoughts instantly, organize them beautifully</p>
+            </header>
+
+            <!-- Mode Toggle -->
+            <div class="mode-toggle">
+                <div class="mode-toggle-container">
+                    <button class="mode-btn active" data-mode="taking">
+                        <i class="fas fa-pen-fancy"></i> Note Taking
+                    </button>
+                    <button class="mode-btn" data-mode="making">
+                        <i class="fas fa-plus-circle"></i> Note Making
+                    </button>
+                </div>
+            </div>
+
+            <!-- Quick Capture Section (Note Taking Mode) -->
+            <div class="quick-capture-section" id="note-taking-section">
+                <div class="quick-capture-header">
+                    <h3><i class="fas fa-bolt"></i> Quick Capture</h3>
+                    <div class="voice-controls">
+                        <button class="voice-btn" id="voice-to-text" title="Voice to Text">
+                            <i class="fas fa-microphone"></i>
+                        </button>
+                        <button class="voice-btn" id="toggle-listening" title="Toggle Continuous Listening">
+                            <i class="fas fa-ear-listen"></i>
+                        </button>
+                    </div>
+                </div>
+                <textarea class="quick-capture-input" id="quick-capture-input" 
+                          placeholder="Start typing or speaking... Your thoughts will be auto-saved"></textarea>
+                <div class="quick-capture-actions">
+                    <div class="auto-save-status">
+                        <i class="fas fa-save"></i>
+                        <span id="auto-save-status">Auto-save enabled</span>
+                    </div>
+                    <button class="quick-save-btn" id="quick-save-btn">
+                        <i class="fas fa-paper-plane"></i> Save as Note
+                    </button>
+                </div>
+            </div>
+
+            <!-- Templates Section -->
+            <div class="templates-section" id="templates-section">
+                <div class="templates-header">
+                    <h3><i class="fas fa-layer-group"></i> Note Templates</h3>
+                </div>
+                <div class="templates-grid">
+                    <div class="template-card" data-template="meeting">
+                        <h4><i class="fas fa-users"></i> Meeting Notes</h4>
+                        <p>Structured template for meeting notes with agenda, participants, and action items</p>
+                    </div>
+                    <div class="template-card" data-template="daily">
+                        <h4><i class="fas fa-calendar-day"></i> Daily Journal</h4>
+                        <p>Daily reflection template with goals, achievements, and thoughts</p>
+                    </div>
+                    <div class="template-card" data-template="project">
+                        <h4><i class="fas fa-project-diagram"></i> Project Planning</h4>
+                        <p>Project planning template with objectives, tasks, and timeline</p>
+                    </div>
+                    <div class="template-card" data-template="lecture">
+                        <h4><i class="fas fa-graduation-cap"></i> Lecture Notes</h4>
+                        <p>Academic template for lecture notes with key concepts and summaries</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Note Making Form -->
+            <form id="note-form" class="note-form hidden">
+                <div class="form-header">
+                    <h3 id="form-title">Create New Note</h3>
+                    <button type="button" id="cancel-edit" class="secondary-btn" style="display: none;">
+                        <i class="fas fa-times"></i> Cancel
+                    </button>
+                </div>
+
+                <div class="form-row">
+                    <input type="text" id="note-title" placeholder="Enter note title" required>
+                </div>
+
+                <div class="form-row">
+                    <select id="note-category" required>
+                        <option value="">Select Category</option>
+                        <option value="Personal">Personal</option>
+                        <option value="Work">Work</option>
+                        <option value="School">School</option>
+                        <option value="Ideas">Ideas</option>
+                        <option value="Research">Research</option>
+                        <option value="Meeting">Meeting</option>
+                        <option value="Project">Project</option>
+                    </select>
+                </div>
+
+                <div class="form-row">
+                    <input type="text" id="note-tags" placeholder="Add tags (comma-separated)">
+                </div>
+
+                <div class="form-row">
+                    <textarea id="note-content" placeholder="Enter your note content..." required></textarea>
+                </div>
+
+                <div class="form-actions">
+                    <button type="submit" class="primary-btn" id="submit-btn">
+                        <i class="fas fa-plus"></i> Create Note
+                    </button>
+                </div>
+            </form>
+
+            <!-- Search and Filter Section -->
+            <div class="search-filter-section">
+                <div class="search-container">
+                    <i class="fas fa-search"></i>
+                    <input type="text" id="search" placeholder="Search notes by title, content, or tags..." />
+                </div>
+                
+                <div class="filter-controls">
+                    <select id="category-filter">
+                        <option value="">All Categories</option>
+                        <option value="Personal">Personal</option>
+                        <option value="Work">Work</option>
+                        <option value="School">School</option>
+                        <option value="Ideas">Ideas</option>
+                        <option value="Research">Research</option>
+                        <option value="Meeting">Meeting</option>
+                        <option value="Project">Project</option>
+                    </select>
+                    
+                    <select id="sort-options">
+                        <option value="newest">Newest First</option>
+                        <option value="oldest">Oldest First</option>
+                        <option value="title">Title A-Z</option>
+                        <option value="category">Category</option>
+                    </select>
+
+                    <div class="view-toggle">
+                        <button id="grid-view" class="view-btn active" title="Grid View">
+                            <i class="fas fa-th"></i>
+                        </button>
+                        <button id="list-view" class="view-btn" title="List View">
+                            <i class="fas fa-list"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Statistics Section -->
+            <div class="stats-section">
+                <div class="stat-card">
+                    <i class="fas fa-sticky-note"></i>
+                    <div class="stat-info">
+                        <span class="stat-number" id="total-notes">0</span>
+                        <span class="stat-label">Total Notes</span>
+                    </div>
+                </div>
+                <div class="stat-card">
+                    <i class="fas fa-folder"></i>
+                    <div class="stat-info">
+                        <span class="stat-number" id="total-categories">0</span>
+                        <span class="stat-label">Categories</span>
+                    </div>
+                </div>
+                <div class="stat-card">
+                    <i class="fas fa-tags"></i>
+                    <div class="stat-info">
+                        <span class="stat-number" id="total-tags">0</span>
+                        <span class="stat-label">Unique Tags</span>
+                    </div>
+                </div>
+                <div class="stat-card">
+                    <i class="fas fa-clock"></i>
+                    <div class="stat-info">
+                        <span class="stat-number" id="notes-today">0</span>
+                        <span class="stat-label">Notes Today</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Notes Display Section -->
+            <div class="notes-section">
+                <div class="section-header">
+                    <h2>Your Notes</h2>
+                    <div class="notes-count">
+                        <span id="displayed-count">0</span> notes displayed
+                    </div>
+                </div>
+
+                <div class="notes-container grid-view" id="notes-container">
+                    <!-- Notes will be dynamically added here -->
+                </div>
+            </div>
+
+            <!-- Export/Import Section -->
+            <div style="display: flex; gap: 1rem; justify-content: center; padding-top: 2rem; border-top: 1px solid #e2e8f0;">
+                <button id="export-notes" class="secondary-btn">
+                    <i class="fas fa-download"></i> Export Notes
+                </button>
+                <button id="import-notes" class="secondary-btn">
+                    <i class="fas fa-upload"></i> Import Notes
+                </button>
+                <input type="file" id="import-file" accept=".json" style="display: none;">
+            </div>
+        </div>
+    </div>
+
+    <script src="note.js"></script>
+</body>
+</html>
